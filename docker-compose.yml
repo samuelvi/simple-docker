@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+    nginx:
+        build: nginx
+        container_name: api_platform_nginx
+        volumes:
+            - ../:/var/www/html/:cached
+        ports:
+            - 8000:80
+
+    fpm:
+        build: php-fpm
+        container_name: api_platform_php_fpm
+        volumes:
+            - ../:/var/www/html/:cached
+
+    mariadb:
+        image: mariadb:10.5
+        container_name: api_platform_mariadb
+        volumes:
+            - ./mariadb/db/:/var/lib/mysql
+        environment:
+            MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+        user: mysql
